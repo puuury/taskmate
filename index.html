@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TaskMate</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>📋 TaskMate</h1>
+    <button id="js-box">JS Box</button>
+    <input type="text" id="search-box" placeholder="Search tasks...">
+    <button id="sort-date">📅 Sort by Date</button>
+    <button id="theme-toggle">🌓 Toggle Theme</button>
+
+    <div class="task-input">
+      <input type="text" id="task-title" placeholder="Task title" />
+      <input type="date" id="task-date" />
+      <select id="task-priority">
+        <option value="low">🟩 Low</option>
+        <option value="medium">🟨 Medium</option>
+        <option value="high">🟥 High</option>
+      </select>
+      <select id="is-about-js">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+      <button id="add-task">Add Task</button>
+    </div>
+
+    <div class="filters">
+      <button data-filter="all">All</button>
+      <button data-filter="done">✅ Done</button>
+      <button data-filter="not-done">❌ Not Done</button>
+    </div>
+
+    <button id="clear-done">🧹 Clear Done Tasks</button>
+
+    <ul id="task-list"></ul>
+
+    <script src="app.js"></script>
+  </body>
+</html>

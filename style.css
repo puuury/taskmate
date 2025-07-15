@@ -1,0 +1,65 @@
+body {
+  font-family: sans-serif;
+  background-color: #fff;
+  color: #222;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 20px;
+}
+
+.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode button {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.task-input input,
+.task-input select,
+button {
+  margin: 5px;
+  padding: 5px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+li.done {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.priority-low {
+  border-left: 5px solid green;
+}
+.priority-medium {
+  border-left: 5px solid orange;
+}
+.priority-high {
+  border-left: 5px solid red;
+}
+
+.about-js {
+  background: url('https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png') no-repeat right center;
+  background-size: 30px;
+  padding-right: 40px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-color: #dc9806;
+}
+button {
+  border-radius: 3px;
+}

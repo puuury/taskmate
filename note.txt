@@ -1,0 +1,32 @@
+من این سلکت رو به اچ تی ام ال اضافه کردم
+<select id="is-about-js">
+      <option value="yes">Yes</option>
+      <option value="no">no</option>
+    </select>
+در جی اس ابتدا این رو اضافه کردم
+const aboutJs = document.getElementById('is-about-js');
+در دیفالت ادد هندلر هم اینو اضافه کردم
+ const isAboutJs = aboutJs.value;
+ const task = { title, date, priority,isAboutJs ,done: false };
+isAboutJs.value = "Yes";
+span.textContent = `About JS: ${task.isAboutJs} | Title: ${task.title} (DUE: ${task.date})`;
+حالا میخواهم کل بکگراند تسک آیتم هایی که درباره جی اس است زرد لوگوی جی اس باشد
+یک مشکل دیگر هم که هست وفتی ادیت میکنم تسک رو و وضعیت جی اس آن را از یس به نو یا برعکس عوض میکنم و آپدیت میکنم تغییر نمیکند 
+و برای حل این مشکل این تیکه کد را آپدیت کردم
+
+
+    
+      const newTitle = titleInput.value.trim();
+      const newDate = dateInput.value;
+      const newPriority = priorityInput.value;
+      const newAbout = aboutJs.value
+
+      if (newTitle === "") {
+        alert("Please enter a task title.");
+        return;
+      }
+
+      task.title = newTitle;
+      task.date = newDate;
+      task.priority = newPriority;
+      task.isAboutJs = newAbout;
