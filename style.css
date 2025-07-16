@@ -1,4 +1,5 @@
 body {
+  width: 100%;
   font-family: sans-serif;
   background-color: #fff;
   color: #222;
@@ -19,6 +20,13 @@ body {
   border: 1px solid #555;
 }
 
+.task-input {
+  width: 100%;
+  border:  1px solid orange;
+  display: flex;
+  gap: 8px;
+  justify-content: space-around;
+}
 .task-input input,
 .task-input select,
 button {
