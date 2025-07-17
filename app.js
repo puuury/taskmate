@@ -1,3 +1,4 @@
+// DOM element references
 const titleInput = document.getElementById("task-title");
 const dateInput = document.getElementById("task-date");
 const priorityInput = document.getElementById("task-priority");
@@ -11,16 +12,15 @@ const sortButton = document.getElementById("sort-date");
 const searchBox = document.getElementById("search-box");
 const jsBox = document.getElementById("js-box");
 
-let tasks = [];
-let defaultAddHandler;
-let showingOnlyJs = false;
+let tasks = []; // Task storage array
+let defaultAddHandler; // To restore default add task action
+let showingOnlyJs = false; // Toggle for JS-only view
 
-// Deadline alert function
+// ✅ Highlight tasks due within 2 days
 function checkDeadlines() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
-  // ابتدا همه انیمیشن‌ها را حذف می‌کنیم
+
   const allTaskElements = [...taskList.children];
   allTaskElements.forEach(taskElement => {
     taskElement.style.animation = "";
@@ -28,20 +28,16 @@ function checkDeadlines() {
   });
 
   tasks.forEach(task => {
-    // فقط تسک‌های انجام نشده را بررسی می‌کنیم
     if (task.done || !task.date) return;
-    
+
     const taskDate = new Date(task.date);
     taskDate.setHours(0, 0, 0, 0);
-    
-    const diffTime = taskDate - today;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
+    const diffDays = Math.floor((taskDate - today) / (1000 * 60 * 60 * 24));
+
     if (diffDays <= 2 && diffDays >= 0) {
-      const taskElement = allTaskElements.find(el => 
+      const taskElement = allTaskElements.find(el =>
         el.textContent.includes(task.title)
       );
-      
       if (taskElement) {
         taskElement.style.animation = "pulse 1s infinite";
         taskElement.style.border = "2px solid red";
@@ -50,12 +46,13 @@ function checkDeadlines() {
   });
 }
 
+// 🌓 Dark mode toggle and localStorage sync
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
-  const isDark = document.body.classList.contains("dark-mode");
-  localStorage.setItem("theme", isDark ? "dark" : "light");
+  localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
 });
 
+// ✅ Load saved theme and tasks on page load
 window.addEventListener("DOMContentLoaded", () => {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
@@ -70,6 +67,7 @@ window.addEventListener("DOMContentLoaded", () => {
   checkDeadlines();
 });
 
+// ➕ Default handler for adding new task
 defaultAddHandler = () => {
   const title = titleInput.value.trim();
   const date = dateInput.value;
@@ -87,6 +85,7 @@ defaultAddHandler = () => {
   renderTask(task);
   checkDeadlines();
 
+  // Reset form
   titleInput.value = "";
   dateInput.value = "";
   priorityInput.value = "low";
@@ -95,15 +94,18 @@ defaultAddHandler = () => {
 
 addButton.onclick = defaultAddHandler;
 
+// 💾 Save tasks to localStorage
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+// 🔄 Render all tasks
 function renderAllTasks(taskArray) {
   taskList.innerHTML = "";
   taskArray.forEach((task) => renderTask(task));
 }
 
+// 🎯 Render a single task
 function renderTask(task) {
   const taskItem = document.createElement("li");
 
@@ -114,6 +116,7 @@ function renderTask(task) {
   const span = document.createElement("span");
   span.textContent = `About JS: ${task.isAboutJs} | Title: ${task.title} (DUE: ${task.date})`;
 
+  // ✅ Toggle task done status on click
   span.addEventListener("click", () => {
     task.done = !task.done;
     taskItem.classList.toggle("done");
@@ -121,6 +124,7 @@ function renderTask(task) {
     checkDeadlines();
   });
 
+  // ❌ Delete button
   const delBtn = document.createElement("button");
   delBtn.textContent = "❌";
   delBtn.className = "delete";
@@ -130,6 +134,7 @@ function renderTask(task) {
     saveTasks();
   });
 
+  // ✏️ Edit button
   const editBtn = document.createElement("button");
   editBtn.textContent = "✏️";
   editBtn.className = "edit";
@@ -140,6 +145,7 @@ function renderTask(task) {
     aboutJs.value = task.isAboutJs;
     addButton.textContent = "Update Task";
 
+    // 👇 Handler for update
     addButton.onclick = () => {
       const newTitle = titleInput.value.trim();
       const newDate = dateInput.value;
@@ -175,12 +181,14 @@ function renderTask(task) {
   taskList.appendChild(taskItem);
 }
 
+// 🧹 Clear done tasks
 clearButton.addEventListener("click", () => {
   tasks = tasks.filter((task) => !task.done);
   saveTasks();
   renderAllTasks(tasks);
 });
 
+// 🔍 Filter by done / not-done / all
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const filter = button.dataset.filter;
@@ -198,6 +206,7 @@ filterButtons.forEach((button) => {
   });
 });
 
+// 🔎 Live search by title
 searchBox.addEventListener("input", () => {
   const query = searchBox.value.toLowerCase();
   const filtered = tasks.filter((task) =>
@@ -206,12 +215,14 @@ searchBox.addEventListener("input", () => {
   renderAllTasks(filtered);
 });
 
+// 📅 Sort by date
 sortButton.addEventListener("click", () => {
   tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
   saveTasks();
   renderAllTasks(tasks);
 });
 
+// 🟨 Filter only JS-related tasks
 jsBox.addEventListener("click", () => {
   if (!showingOnlyJs) {
     const jsTasks = tasks.filter(task => task.isAboutJs === "yes");

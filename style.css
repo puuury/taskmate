@@ -1,12 +1,41 @@
 body {
-  width: 100%;
   font-family: sans-serif;
   background-color: #fff;
   color: #222;
   transition: background-color 0.3s, color 0.3s;
-  padding: 20px;
+  padding: 30px;
+  margin-right: 25px;
 }
 
+.theme-toggle {
+  cursor: pointer;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.js-date {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+}
+.buttom-button {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.moon {
+  scale: 1.2;
+}
 .dark-mode {
   background-color: #121212;
   color: #f0f0f0;
@@ -21,17 +50,21 @@ body {
 }
 
 .task-input {
-  width: 100%;
-  border:  1px solid orange;
   display: flex;
   gap: 8px;
-  justify-content: space-around;
+  justify-content: start;
+  align-items: center;
+}
+.task-input input {
+  height: 20px;
+  width: 90px;
 }
 .task-input input,
 .task-input select,
 button {
   margin: 5px;
   padding: 5px;
+  background: transparent;
 }
 
 ul {
@@ -62,7 +95,8 @@ li.done {
 }
 
 .about-js {
-  background: url('https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png') no-repeat right center;
+  background: url("https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png")
+    no-repeat right center;
   background-size: 30px;
   padding-right: 40px;
   background-repeat: no-repeat;
@@ -75,7 +109,13 @@ button {
 }
 
 @keyframes pulse {
-  0% { background-color: rgba(255,0,0,0.1); }
-  50% { background-color: rgba(255,0,0,0.4); }
-  100% { background-color: rgba(255,0,0,0.1); }
+  0% {
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 0.4);
+  }
+  100% {
+    background-color: rgba(255, 0, 0, 0.1);
+  }
 }
