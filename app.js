@@ -15,6 +15,41 @@ let tasks = [];
 let defaultAddHandler;
 let showingOnlyJs = false;
 
+// Deadline alert function
+function checkDeadlines() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  // ابتدا همه انیمیشن‌ها را حذف می‌کنیم
+  const allTaskElements = [...taskList.children];
+  allTaskElements.forEach(taskElement => {
+    taskElement.style.animation = "";
+    taskElement.style.border = "";
+  });
+
+  tasks.forEach(task => {
+    // فقط تسک‌های انجام نشده را بررسی می‌کنیم
+    if (task.done || !task.date) return;
+    
+    const taskDate = new Date(task.date);
+    taskDate.setHours(0, 0, 0, 0);
+    
+    const diffTime = taskDate - today;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays <= 2 && diffDays >= 0) {
+      const taskElement = allTaskElements.find(el => 
+        el.textContent.includes(task.title)
+      );
+      
+      if (taskElement) {
+        taskElement.style.animation = "pulse 1s infinite";
+        taskElement.style.border = "2px solid red";
+      }
+    }
+  });
+}
+
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
   const isDark = document.body.classList.contains("dark-mode");
@@ -32,6 +67,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   renderAllTasks(tasks);
+  checkDeadlines();
 });
 
 defaultAddHandler = () => {
@@ -49,6 +85,7 @@ defaultAddHandler = () => {
   tasks.push(task);
   saveTasks();
   renderTask(task);
+  checkDeadlines();
 
   titleInput.value = "";
   dateInput.value = "";
@@ -81,6 +118,7 @@ function renderTask(task) {
     task.done = !task.done;
     taskItem.classList.toggle("done");
     saveTasks();
+    checkDeadlines();
   });
 
   const delBtn = document.createElement("button");
@@ -120,6 +158,7 @@ function renderTask(task) {
 
       saveTasks();
       renderAllTasks(tasks);
+      checkDeadlines();
 
       titleInput.value = "";
       dateInput.value = "";

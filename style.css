@@ -43,6 +43,7 @@ li {
   margin: 10px 0;
   padding: 10px;
   border: 1px solid #ccc;
+  transition: all 0.3s ease;
 }
 
 li.done {
@@ -68,6 +69,13 @@ li.done {
   background-position: right center;
   background-color: #dc9806;
 }
+
 button {
   border-radius: 3px;
+}
+
+@keyframes pulse {
+  0% { background-color: rgba(255,0,0,0.1); }
+  50% { background-color: rgba(255,0,0,0.4); }
+  100% { background-color: rgba(255,0,0,0.1); }
 }
