@@ -2,19 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TaskMate</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style/style.css" />
   </head>
   <body>
-    <h1>📋 TaskMate</h1>
+    <!-- 🌓 Theme Toggle -->
+    <div class="theme-toggle" id="theme-toggle">
+      <div class="moon">🌙</div>
+    </div>
+
+    <!-- 📅 JS Date Display -->
     <div class="js-date">
       <button id="js-box">JS Box</button>
       <button id="sort-date">📅 Sort by Date</button>
     </div>
-    <div class="theme-toggle" id="theme-toggle">
+
+    <!-- 🔍 Search Box -->
+    <div class="search-container">
       <input type="text" id="search-box" placeholder="Search tasks...">
-      <div class="moon">🌓</div>
+      <button id="search-toggle" class="search-toggle">🔍</button>
     </div>
+
+    <div class="container">
+      <h1>📋 TaskMate</h1>
 
     <div class="task-input">
       <input type="text" class="task-title" id="task-title" placeholder="Task title" />
@@ -43,7 +54,8 @@
     </div>
 
     <ul id="task-list"></ul>
+    </div>
 
-    <script src="app.js"></script>
+    <script type="module" src="js/app.js"></script>
   </body>
 </html>
