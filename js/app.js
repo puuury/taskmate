@@ -68,12 +68,13 @@ export function checkDeadlines() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
+  // Remove alarm class from all task elements
   const allTaskElements = [...taskList.children];
   allTaskElements.forEach(taskElement => {
-    taskElement.style.animation = "";
-    taskElement.style.border = "";
+    taskElement.classList.remove("alarm");
   });
 
+  // Add alarm class to tasks due within 2 days
   tasks.forEach(task => {
     if (task.done || !task.date) return;
 
@@ -81,13 +82,14 @@ export function checkDeadlines() {
     taskDate.setHours(0, 0, 0, 0);
     const diffDays = Math.floor((taskDate - today) / (1000 * 60 * 60 * 24));
 
-    if (diffDays <= 2 && diffDays >= 0) {
+    if (diffDays >= 0 && diffDays <= 2) {
+      // Find the <li> element for this task by data-title and data-date
       const taskElement = allTaskElements.find(el =>
-        el.textContent.includes(task.title)
+        el.getAttribute('data-title') === task.title &&
+        el.getAttribute('data-date') === task.date
       );
       if (taskElement) {
-        taskElement.style.animation = "pulse 1s infinite";
-        taskElement.style.border = "2px solid red";
+        taskElement.classList.add("alarm");
       }
     }
   });
@@ -254,6 +256,7 @@ sortButton.addEventListener("click", () => {
   tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
   saveTasks(tasks);
   renderAllTasks(tasks, taskList);
+  checkDeadlines();
 });
 
 // 🟨 Filter only JS-related tasks

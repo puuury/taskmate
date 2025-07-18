@@ -15,6 +15,9 @@ export function setTasksAndHandler(tasksArray, defaultHandler) {
 export function renderTask(task, taskList) {
   const taskItem = document.createElement("li");
 
+  taskItem.setAttribute("data-title", task.title);
+  taskItem.setAttribute("data-date", task.date);
+
   if (task.done) taskItem.classList.add("done");
   taskItem.classList.add(`priority-${task.priority}`);
   if (task.isAboutJs === "yes") taskItem.classList.add("about-js");

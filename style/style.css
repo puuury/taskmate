@@ -74,8 +74,8 @@ body {
 .js-date {
   position: absolute;
   top: 20px;
-  left: 0;
-  transform: translateX(-50%);
+  left: 20px;
+  transform: none;
   font-weight: bold;
   color: #2c3e50;
   z-index: 1000;
@@ -90,8 +90,8 @@ body {
     display: flex !important;
     position: absolute;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 20px;
+    transform: none;
   }
 }
 
@@ -100,8 +100,8 @@ body {
     display: flex;
     position: absolute;
     top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 20px;
+    transform: none;
   }
 }
 
@@ -363,6 +363,13 @@ li.done {
   border-radius: 5px;
   font-size: 10px;
   font-weight: bold;
+}
+
+.about-js.alarm {
+  background: linear-gradient(135deg, #ff4d4d, #e67e22) !important;
+  color: white !important;
+  border: 2px solid #ff0000 !important;
+  animation: pulse 1s infinite;
 }
 
 /* ✏️ Edit & ❌ Delete Buttons */
@@ -687,4 +694,9 @@ li.done {
   100% {
     background-color: rgba(255, 0, 0, 0.1);
   }
+}
+
+.alarm {
+  animation: pulse 1s infinite;
+  border: 2px solid red !important;
 }
