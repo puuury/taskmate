@@ -113,4 +113,5 @@ export function renderTask(task, taskList) {
 export function renderAllTasks(tasks, taskList) {
   taskList.innerHTML = "";
   tasks.forEach((task) => renderTask(task, taskList));
+  checkDeadlines();
 }

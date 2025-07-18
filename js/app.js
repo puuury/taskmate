@@ -148,7 +148,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   setTasksAndHandler(tasks, defaultAddHandler);
   renderAllTasks(tasks, taskList);
-  checkDeadlines();
+  
 });
 
 // ➕ Default handler for adding new task
@@ -194,6 +194,7 @@ defaultAddHandler = () => {
   saveTasks(tasks);
   renderTask(task, taskList);
   checkDeadlines();
+
 
   // Reset form
   titleInput.value = "";
@@ -256,7 +257,7 @@ sortButton.addEventListener("click", () => {
   tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
   saveTasks(tasks);
   renderAllTasks(tasks, taskList);
-  checkDeadlines();
+  
 });
 
 // 🟨 Filter only JS-related tasks
