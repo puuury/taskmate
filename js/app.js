@@ -11,7 +11,6 @@ fetch('../data/bannedWords.json')
   })
   .catch(error => {
     console.error('Error loading banned words:', error);
-
   });
 
 // 📚 Load green words from JSON file
@@ -51,6 +50,11 @@ const searchBox = document.getElementById("search-box");
 const jsBox = document.getElementById("js-box");
 
 let tasks = loadTasks(); // 📚 Load tasks from storage
+// اطمینان از اینکه تسک‌های قدیمی ویژگی isExpired دارند
+tasks = tasks.map(task => ({
+  ...task,
+  isExpired: task.isExpired !== undefined ? task.isExpired : false
+}));
 let defaultAddHandler; // 🔄 To restore default add task action
 let showingOnlyJs = false; // 🟨 Toggle for JS-only view
 
@@ -63,7 +67,7 @@ function showError(message) {
   setTimeout(() => errorDiv.remove(), 3000);
 }
 
-// ✅ Highlight tasks due within 2 days
+// ✅ Highlight tasks due within 2 days and check expiration
 export function checkDeadlines() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -74,16 +78,22 @@ export function checkDeadlines() {
     taskElement.classList.remove("alarm");
   });
 
-  // Add alarm class to tasks due within 2 days
+  // Update isExpired and add alarm class for tasks due within 2 days
   tasks.forEach(task => {
-    if (task.done || !task.date) return;
+    if (task.done || !task.date) {
+      task.isExpired = false;
+      return;
+    }
 
     const taskDate = new Date(task.date);
     taskDate.setHours(0, 0, 0, 0);
     const diffDays = Math.floor((taskDate - today) / (1000 * 60 * 60 * 24));
 
-    if (diffDays >= 0 && diffDays <= 2) {
-      // Find the <li> element for this task by data-title and data-date
+    // بررسی انقضا
+    task.isExpired = diffDays < 0;
+
+    // بررسی آلارم برای تسک‌های غیرمنقضی‌شده
+    if (!task.isExpired && diffDays >= 0 && diffDays <= 2) {
       const taskElement = allTaskElements.find(el =>
         el.getAttribute('data-title') === task.title &&
         el.getAttribute('data-date') === task.date
@@ -93,6 +103,8 @@ export function checkDeadlines() {
       }
     }
   });
+
+  saveTasks(tasks); // ذخیره تغییرات در localStorage
 }
 
 // 🌓 Dark mode toggle and localStorage sync
@@ -148,7 +160,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   setTasksAndHandler(tasks, defaultAddHandler);
   renderAllTasks(tasks, taskList);
-  
+  checkDeadlines();
 });
 
 // ➕ Default handler for adding new task
@@ -189,12 +201,11 @@ defaultAddHandler = () => {
     return;
   }
 
-  const task = { title, date, priority, isAboutJs, done: false };
+  const task = { title, date, priority, isAboutJs, done: false, isExpired: false };
   tasks.push(task);
   saveTasks(tasks);
   renderTask(task, taskList);
   checkDeadlines();
-
 
   // Reset form
   titleInput.value = "";
@@ -257,7 +268,6 @@ sortButton.addEventListener("click", () => {
   tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
   saveTasks(tasks);
   renderAllTasks(tasks, taskList);
-  
 });
 
 // 🟨 Filter only JS-related tasks

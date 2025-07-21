@@ -21,9 +21,33 @@ export function renderTask(task, taskList) {
   if (task.done) taskItem.classList.add("done");
   taskItem.classList.add(`priority-${task.priority}`);
   if (task.isAboutJs === "yes") taskItem.classList.add("about-js");
+  if (task.isExpired) taskItem.classList.add("expired");
+  
+  // Disable edit button for expired tasks
+  if (task.isExpired) {
+    editBtn.disabled = true;
+    editBtn.style.opacity = "0.5";
+  }
 
+  // Create enhanced task display with deadline information
   const span = document.createElement("span");
-  span.textContent = `About JS: ${task.isAboutJs} | Title: ${task.title} (DUE: ${task.date})`;
+  let deadlineInfo = "";
+  
+  if (task.daysUntilDue !== undefined) {
+    if (task.isExpired) {
+      deadlineInfo = ` (OVERDUE: ${Math.abs(task.daysUntilDue)} days)`;
+    } else if (task.daysUntilDue === 0) {
+      deadlineInfo = " (DUE TODAY!)";
+    } else if (task.daysUntilDue <= 2) {
+      deadlineInfo = ` (DUE IN ${task.daysUntilDue} days)`;
+    } else {
+      deadlineInfo = ` (DUE: ${task.date})`;
+    }
+  } else {
+    deadlineInfo = ` (DUE: ${task.date})`;
+  }
+  
+  span.textContent = `About JS: ${task.isAboutJs} | Title: ${task.title}${deadlineInfo}`;
 
   // ✅ Toggle task done status on click
   span.addEventListener("click", () => {
@@ -47,6 +71,13 @@ export function renderTask(task, taskList) {
   const editBtn = document.createElement("button");
   editBtn.textContent = "✏️";
   editBtn.className = "edit";
+  
+  // Disable edit for expired tasks
+  if (task.isExpired) {
+    editBtn.disabled = true;
+    editBtn.style.opacity = "0.5";
+  }
+  
   editBtn.addEventListener("click", () => {
     try {
       // Get DOM elements
@@ -68,7 +99,7 @@ export function renderTask(task, taskList) {
       aboutJs.value = task.isAboutJs;
       addButton.textContent = "Update Task";
 
-      // �� Handler for update
+      // 🔄 Handler for update
       addButton.onclick = () => {
         const newTitle = titleInput.value.trim();
         const newDate = dateInput.value;
@@ -109,9 +140,18 @@ export function renderTask(task, taskList) {
   taskList.appendChild(taskItem);
 }
 
-// 🔄 Render all tasks
+// 🔄 Render all tasks with enhanced sorting
 export function renderAllTasks(tasks, taskList) {
   taskList.innerHTML = "";
-  tasks.forEach((task) => renderTask(task, taskList));
+  
+  // Enhanced sorting: non-expired tasks first (by date), then expired tasks
+  const sortedTasks = tasks.sort((a, b) => {
+    if (a.isExpired !== b.isExpired) {
+      return a.isExpired ? 1 : -1; // Expired tasks go to the end
+    }
+    return new Date(a.date) - new Date(b.date); // Sort by date for non-expired tasks
+  });
+  
+  sortedTasks.forEach((task) => renderTask(task, taskList));
   checkDeadlines();
 }

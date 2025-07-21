@@ -683,7 +683,7 @@ li.done {
   transform: rotate(180deg);
 }
 
-/* ⏰ Pulse animation for deadline tasks */
+/* ⏰ Enhanced deadline animations and styles */
 @keyframes pulse {
   0% {
     background-color: rgba(255, 0, 0, 0.1);
@@ -696,7 +696,72 @@ li.done {
   }
 }
 
-.alarm {
-  animation: pulse 1s infinite;
-  border: 2px solid red !important;
+@keyframes urgentPulse {
+  0% {
+    background-color: rgba(255, 165, 0, 0.1);
+    border-color: #ffa500;
+  }
+  50% {
+    background-color: rgba(255, 165, 0, 0.3);
+    border-color: #ff8c00;
+  }
+  100% {
+    background-color: rgba(255, 165, 0, 0.1);
+    border-color: #ffa500;
+  }
+}
+
+/* 🚨 Urgent tasks (due today) */
+.alarm.due-today {
+  animation: urgentPulse 0.8s infinite;
+  border: 2px solid #ff4500 !important;
+  background: rgba(255, 69, 0, 0.1);
+}
+
+/* ⚠️ Tasks due soon (1-2 days) */
+.alarm.due-soon {
+  animation: pulse 1.2s infinite;
+  border: 2px solid #ff6347 !important;
+  background: rgba(255, 99, 71, 0.1);
+}
+
+/* 📅 Tasks due in 3-7 days */
+.due-soon {
+  border: 2px solid #ffa500 !important;
+  background: rgba(255, 165, 0, 0.05);
+}
+
+/* ❌ Expired/overdue tasks */
+li.expired {
+  opacity: 0.7;
+  background: rgba(128, 128, 128, 0.2);
+  border-left: 5px solid #666;
+  text-decoration: line-through;
+}
+
+.dark-mode li.expired {
+  background: rgba(128, 128, 128, 0.1);
+  border-left-color: #999;
+}
+
+/* 🔴 Overdue tasks (special styling) */
+li.overdue {
+  background: rgba(220, 20, 60, 0.1) !important;
+  border-left: 5px solid #dc143c !important;
+}
+
+.dark-mode li.overdue {
+  background: rgba(220, 20, 60, 0.2) !important;
+}
+
+/* 🚫 Disabled edit button for expired tasks */
+.edit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(128, 128, 128, 0.3);
+}
+
+.edit:disabled:hover {
+  transform: none;
+  background: rgba(128, 128, 128, 0.3);
 }
