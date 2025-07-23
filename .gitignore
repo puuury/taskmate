@@ -1,3 +1,16 @@
+# Ignore VSCode settings
 .vscode/
-.note.txt
-.TASK_EXPIRATION_IMPROVEMENTS.md
+
+# Ignore project notes and documentation not for git
+note.txt
+TASK_EXPIRATION_IMPROVEMENTS.md
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore node_modules if used in the future
+node_modules/

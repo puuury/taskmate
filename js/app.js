@@ -4,7 +4,7 @@ import { renderTask, renderAllTasks, setTasksAndHandler } from './render.js';
 
 // 📚 Load banned words from JSON file
 let bannedWords = [];
-fetch('../data/bannedWords.json')
+fetch('data/bannedWords.json') // Path updated for GitHub Pages compatibility
   .then(response => response.json())
   .then(data => {
     bannedWords = data.map(item => item.title.toLowerCase());
@@ -15,7 +15,7 @@ fetch('../data/bannedWords.json')
 
 // 📚 Load green words from JSON file
 let greenWords = [];
-fetch('../data/greenWords.json')
+fetch('data/greenWords.json') // Path updated for GitHub Pages compatibility
   .then(response => response.json())
   .then(data => {
     greenWords = data.map(item => item.title.toLowerCase());
